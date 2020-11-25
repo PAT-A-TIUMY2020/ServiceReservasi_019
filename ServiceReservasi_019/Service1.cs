@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -10,22 +11,76 @@ namespace ServiceReservasi_019
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
     public class Service1 : IService1
     {
-        public string GetData(int value)
+        string connectionString = "Data Source = DESKTOP - 0QLRLVG;Initial Catalog = WCFReservasi; Persist Security Info=True;User ID = sa; Password=albana123;";
+        
+        SqlConnection connection;
+        //untuk menghubungkan database
+        SqlCommand com;
+
+        public string deletePemesanan(string idPemesanan)
         {
-            return string.Format("You entered: {0}", value);
+            throw new NotImplementedException();
         }
 
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
+        public List<DetailLokasi> DetailLokasi()
         {
-            if (composite == null)
+            //deklarasi nama List
+            List<DetailLokasi> LokasiFull = new List<DetailLokasi>();
+            try
             {
-                throw new ArgumentNullException("composite");
+                string sql = "select ID_Lokasi, Nama_Lokasi, Deskripsi_Full, Kuota from dbo.Lokasi";
+                connection = new SqlConnection(connectionString);
+                com = new SqlCommand(sql, connection);
+                connection.Open();
+                SqlDataReader reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    DetailLokasi data = new DetailLokasi();
+                    //array
+                    data.IdLokasi = reader.GetString(0);
+                    data.NamaLokasi = reader.GetString(1);
+                    data.DeskripsiFull = reader.GetString(2);
+                    data.Kuota = reader.GetInt32(3);
+                    LokasiFull.Add(data);
+                }
+                connection.Close();
             }
-            if (composite.BoolValue)
+            catch (Exception ex)
             {
-                composite.StringValue += "Suffix";
+                Console.WriteLine(ex);
             }
-            return composite;
+            return LokasiFull;
+        }
+
+        public string editPemesanan(string idPemesanan, string namaCustomer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string pemesanan(string IdPemesanan, string NamaCustomer, string NoTelp, int JumlahPemesanan, string IdLokasi)
+        {
+            string a = "gagal";
+            string sql = "insert into dbo.Pemesanan values ('" + IdPemesanan + "','" + NamaCustomer + "','" + NoTelp + "'," + JumlahPemesanan + ",'" + IdLokasi + "')";
+
+            connection = new SqlConnection(connectionString);
+            com = new SqlCommand(sql, connection);
+            connection.Open();
+            com.ExecuteNonQuery();
+            connection.Close();
+            a = "Sukses";
+            return a;
+        }
+
+        public List<Pemesanan> Pemesanan()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CekLokasi> reviewLokasi()
+        {
+            throw new NotImplementedException();
         }
     }
+
+
 }

@@ -12,34 +12,60 @@ namespace ServiceReservasi_019
     public interface IService1
     {
         [OperationContract]
-        string GetData(int value);
-
+        //method proses input data
+        string pemesanan(string IdPemesanan, string NamaCustomer, string NoTelp, int JumlahPemesanan, string IdLokasi);
         [OperationContract]
-        CompositeType GetDataUsingDataContract(CompositeType composite);
-
-        // TODO: Add your service operations here
+        string editPemesanan(string idPemesanan, string namaCustomer);
+        [OperationContract]
+        string deletePemesanan(string idPemesanan);
+        [OperationContract]
+        //Menampilkan data yang ada di database
+        List<CekLokasi> reviewLokasi();
+        [OperationContract]
+        //Menampilkan detail lokasi
+        List<DetailLokasi> DetailLokasi();
+        [OperationContract]
+        List<Pemesanan> Pemesanan();
     }
 
-    // Use a data contract as illustrated in the sample below to add composite types to service operations.
-    // You can add XSD files into the project. After building the project, you can directly use the data types defined there, with the namespace "ServiceReservasi_019.ContractType".
+    //Daftar Lokasi
     [DataContract]
-    public class CompositeType
+    public class CekLokasi
     {
-        bool boolValue = true;
-        string stringValue = "Hello ";
-
         [DataMember]
-        public bool BoolValue
-        {
-            get { return boolValue; }
-            set { boolValue = value; }
-        }
-
+        public string IDLokasi { get; set; }
         [DataMember]
-        public string StringValue
-        {
-            get { return stringValue; }
-            set { stringValue = value; }
-        }
+        public string NamaLokasi { get; set; }
+        [DataMember]
+        public string Deskripsi { get; set; }
+    }
+
+    //Menampilkan detail lokasi
+    [DataContract]
+    public class DetailLokasi
+    {
+        [DataMember]
+        public string IdLokasi { get; set; }
+        [DataMember]
+        public string NamaLokasi { get; set; }
+        [DataMember]
+        public string DeskripsiFull { get; set; }
+        [DataMember]
+        public int Kuota { get; set; }
+    }
+
+    [DataContract]
+    public class Pemesanan
+    {
+        [DataMember]
+        public string IdPemesanan { get; set; }
+        [DataMember]
+        public string NamaCustomer { get; set; }
+        [DataMember]
+        public string NoTelp { get; set; }
+        [DataMember]
+        public int JumlahPemesanan { get; set; }
+        [DataMember]
+        public string IdLokasi { get; set; }
     }
 }
