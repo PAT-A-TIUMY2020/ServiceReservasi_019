@@ -7,28 +7,23 @@ using System.Text;
 
 namespace ServiceReservasi_019
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
     [ServiceContract]
     public interface IService1
     {
         [OperationContract]
-        //method proses input data
-        string pemesanan(string IdPemesanan, string NamaCustomer, string NoTelp, int JumlahPemesanan, string IdLokasi);
+        string pemesanan(string IDPemesanan, string NamaCustomer, string NoTelpon, int JumlahPemesanan, string IDLokasi);
         [OperationContract]
-        string editPemesanan(string idPemesanan, string namaCustomer);
+        string editPemesanan(string IDPemesanan, string NamaCustomer, string No_telpon);
         [OperationContract]
-        string deletePemesanan(string idPemesanan);
+        string deletePemesanan(string IDPemesanan);
         [OperationContract]
-        //Menampilkan data yang ada di database
-        List<CekLokasi> reviewLokasi();
+        List<CekLokasi> ReviewLokasi();
         [OperationContract]
-        //Menampilkan detail lokasi
         List<DetailLokasi> DetailLokasi();
         [OperationContract]
         List<Pemesanan> Pemesanan();
     }
 
-    //Daftar Lokasi
     [DataContract]
     public class CekLokasi
     {
@@ -37,15 +32,14 @@ namespace ServiceReservasi_019
         [DataMember]
         public string NamaLokasi { get; set; }
         [DataMember]
-        public string Deskripsi { get; set; }
+        public string DeskripsiSingkat { get; set; }
     }
 
-    //Menampilkan detail lokasi
     [DataContract]
     public class DetailLokasi
     {
         [DataMember]
-        public string IdLokasi { get; set; }
+        public string IDLokasi { get; set; }
         [DataMember]
         public string NamaLokasi { get; set; }
         [DataMember]
@@ -58,14 +52,14 @@ namespace ServiceReservasi_019
     public class Pemesanan
     {
         [DataMember]
-        public string IdPemesanan { get; set; }
+        public string IDPemesanan { get; set; }
         [DataMember]
         public string NamaCustomer { get; set; }
         [DataMember]
-        public string NoTelp { get; set; }
+        public string NoTelpon { get; set; }
         [DataMember]
         public int JumlahPemesanan { get; set; }
         [DataMember]
-        public string IdLokasi { get; set; }
+        public string Lokasi { get; set; }
     }
 }
